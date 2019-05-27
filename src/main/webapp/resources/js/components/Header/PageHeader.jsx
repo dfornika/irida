@@ -1,6 +1,7 @@
 import React, { Suspense } from "react";
 import { render } from "react-dom";
 import { blue1 } from "../../styles/colors";
+import { MainNavigation } from "./MainNavigation";
 
 /*
 WEBPACK PUBLIC PATH:
@@ -25,7 +26,8 @@ export class PageHeader extends React.Component {
 
   render() {
     return (
-      <div>
+      <>
+        <MainNavigation/>
         {this.state.inGalaxy ? (
           <Suspense
             fallback={
@@ -40,7 +42,7 @@ export class PageHeader extends React.Component {
             <GalaxyAlert />
           </Suspense>
         ) : null}
-      </div>
+      </>
     );
   }
 }
