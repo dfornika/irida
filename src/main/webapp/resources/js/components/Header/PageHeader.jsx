@@ -1,6 +1,8 @@
 import React, { Suspense } from "react";
 import { render } from "react-dom";
+import { Session } from "../session/Session";
 import { blue1 } from "../../styles/colors";
+import { Notifications } from "../notifications/Notifications";
 import { MainNavigation } from "./MainNavigation";
 
 /*
@@ -28,6 +30,8 @@ export class PageHeader extends React.Component {
     return (
       <>
         <MainNavigation/>
+        <Session />
+        <Notifications />
         {this.state.inGalaxy ? (
           <Suspense
             fallback={
