@@ -14,7 +14,7 @@
 <th:block layout:fragment="content">
 	<header style="height: 48px" class="js-page-header"></header>
 	<section th:if="${crumbs != null and #lists.size(crumbs) > 1}" class="ant-breadcrumbs"
-			 style="padding: 5px 15px; background-color: #f8f8f8; margin-bottom: 5px">
+			 style="padding: 5px 15px; background-color: #f8f8f8;">
 		<div>
 			<span class="ant-breadcrumb-link" th:each="crumb, crumbIter : ${crumbs} ">
 				<a th:href="${crumb.url}" th:text="${crumb.text}"></a>
@@ -22,7 +22,7 @@
 			</span>
 		</div>
 	</section>
-	<div class="container-fluid body-content">
+	<div style="padding-top: 5px;" class="container-fluid body-content">
 		<div class="row" layout:fragment="page"></div>
 	</div>
 
