@@ -8,7 +8,9 @@ export function MainNavigation() {
   return (
     <Menu mode="horizontal" style={{ display: "flex" }}>
       <Item key="home">
-        <a href={window.TL.BASE_URL}>IRIDA LOGO HERE</a>
+        <a href={window.TL.BASE_URL}>
+          <img style={{height: 30}} src="/resources/img/irida_logo.svg" alt=""/>
+        </a>
       </Item>
       <SubMenu
         title={
