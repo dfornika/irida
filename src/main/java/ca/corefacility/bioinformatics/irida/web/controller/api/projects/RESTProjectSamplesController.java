@@ -15,15 +15,14 @@ import ca.corefacility.bioinformatics.irida.web.controller.api.samples.RESTSampl
 import ca.corefacility.bioinformatics.irida.web.controller.api.samples.RESTSampleSequenceFilesController;
 import com.google.common.net.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -187,6 +186,40 @@ public class RESTProjectSamplesController {
 		for (Sample sample : samples) {
 			addLinksForSample(Optional.of(p), sample);
 			sampleResources.add(sample);
+		}
+
+		sampleResources.add(linkTo(methodOn(RESTProjectSamplesController.class).getProjectSamples(projectId))
+				.withSelfRel());
+
+		modelMap.addAttribute(RESTGenericController.RESOURCE_NAME, sampleResources);
+
+		return modelMap;
+	}
+
+	/**
+	 * Get the list of {@link Sample} associated with this {@link Project}.
+	 *
+	 * @param projectId
+	 *            the identifier of the {@link Project} to get the
+	 *            {@link Sample}s for.
+	 * @param sampleName
+	 *            the sampleName to query for
+	 * @return the list of {@link Sample}s associated with this {@link Project}.
+	 */
+	@RequestMapping(value = "/api/projects/{projectId}/samples", params = "sampleName", method = RequestMethod.GET)
+	public ModelMap getProjectSamplesBySampleName(@PathVariable Long projectId, @RequestParam("sampleName") String sampleName) {
+
+		ModelMap modelMap = new ModelMap();
+		Project p = projectService.read(projectId);
+		List<Sample> samples = sampleService.getSamplesForProjectShallow(p);
+
+		ResourceCollection<Sample> sampleResources = new ResourceCollection<>(samples.size());
+
+		for (Sample sample : samples) {
+			if (sample.getSampleName().equals(sampleName)) {
+				addLinksForSample(Optional.of(p), sample);
+				sampleResources.add(sample);
+			}
 		}
 
 		sampleResources.add(linkTo(methodOn(RESTProjectSamplesController.class).getProjectSamples(projectId))
